@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { RFValue } from "react-native-responsive-fontsize";
+import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 
 export const Container = styled.View`
@@ -53,4 +53,13 @@ export const SignOut = styled.TouchableOpacity``;
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};
   font-size: ${RFValue(24)}px;
+`;
+
+export const HighlightCards = styled.ScrollView.attrs({
+  horizontal: true,
+  showsHorizontalScrollIndicator: false,
+  contentContainerStyle: { paddingHorizontal: 24 },
+})`
+  position: absolute;
+  margin-top: ${RFPercentage(18)}px;
 `;
