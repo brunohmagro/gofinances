@@ -13,10 +13,15 @@ export const Container = styled.TouchableOpacity.attrs({
   padding: ${RFValue(18)}px ${RFValue(16)}px;
 `;
 
-export const Category = styled.Text`
+interface CategoryProps {
+  titleDefault: boolean;
+}
+
+export const Category = styled.Text<CategoryProps>`
   font-family: ${({ theme }) => theme.fonts.regular};
   font-size: ${RFValue(14)}px;
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ titleDefault, theme }) =>
+    titleDefault ? theme.colors.text : theme.colors.textDark};
 `;
 
 export const Icon = styled(Feather)`

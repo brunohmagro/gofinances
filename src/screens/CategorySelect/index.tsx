@@ -1,5 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
+
 import { Button } from "../../components/Form/Button";
 import { categories } from "../../utils/categories";
 
@@ -21,7 +22,7 @@ interface Category {
 }
 
 interface CategorySelectProps {
-  category: string;
+  category: Category;
   setCategory: (category: Category) => void;
   closeSelectCategory: () => void;
 }
@@ -30,29 +31,38 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
   category,
   setCategory,
   closeSelectCategory,
-}: CategorySelectProps) => (
-  <Container>
-    <Header>
-      <Title>Categoria</Title>
-    </Header>
+}: CategorySelectProps) => {
+  const handleCategorySelect = (item: Category) => {
+    setCategory(item);
+  };
 
-    <FlatList
-      data={categories}
-      style={{ flex: 1, width: "100%" }}
-      keyExtractor={(item) => item.key}
-      renderItem={({ item }) => (
-        <Category>
-          <Icon name={item.icon} />
-          <Name>{item.name}</Name>
-        </Category>
-      )}
-      ItemSeparatorComponent={() => <Separator />}
-    />
+  return (
+    <Container>
+      <Header>
+        <Title>Categoria</Title>
+      </Header>
 
-    <Footer>
-      <ContentFooter>
-        <Button title="Selecionar" />
-      </ContentFooter>
-    </Footer>
-  </Container>
-);
+      <FlatList
+        data={categories}
+        style={{ flex: 1, width: "100%" }}
+        keyExtractor={(item) => item.key}
+        renderItem={({ item }) => (
+          <Category
+            onPress={() => handleCategorySelect(item)}
+            isActive={category.key === item.key}
+          >
+            <Icon name={item.icon} />
+            <Name>{item.name}</Name>
+          </Category>
+        )}
+        ItemSeparatorComponent={() => <Separator />}
+      />
+
+      <Footer>
+        <ContentFooter>
+          <Button title="Selecionar" onPress={closeSelectCategory} />
+        </ContentFooter>
+      </Footer>
+    </Container>
+  );
+};
