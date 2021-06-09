@@ -4,16 +4,18 @@ import { TextInputProps } from "react-native";
 
 import { Input } from "../Input";
 
-import { Container } from "./styles";
+import { Container, Error } from "./styles";
 
 interface InputFormProps extends TextInputProps {
   control: Control;
   name: string;
+  error: string;
 }
 
 export const InputForm: React.FC<InputFormProps> = ({
   control,
   name,
+  error,
   ...rest
 }: InputFormProps) => (
   <Container>
@@ -24,5 +26,6 @@ export const InputForm: React.FC<InputFormProps> = ({
         <Input onChangeText={onChange} value={value} {...rest} />
       )}
     ></Controller>
+    {error && <Error>{error}</Error>}
   </Container>
 );
