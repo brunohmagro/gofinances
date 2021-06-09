@@ -1,7 +1,8 @@
 import styled from "styled-components/native";
-import { FlatList } from "react-native";
+import { FlatList, Platform } from "react-native";
 import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
+import { BorderlessButton } from "react-native-gesture-handler";
 
 import { DataListProps } from ".";
 
@@ -13,6 +14,7 @@ export const Container = styled.View`
 export const Header = styled.SafeAreaView`
   height: ${RFValue(278)}px;
   background: ${({ theme }) => theme.colors.primary};
+  padding-top: ${Platform.OS === "android" ? RFValue(40) : 0}px;
 `;
 
 export const UserWrapper = styled.View`
@@ -51,7 +53,7 @@ export const UserName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.bold};
 `;
 
-export const SignOut = styled.TouchableOpacity``;
+export const SignOut = styled(BorderlessButton)``;
 
 export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.secondary};

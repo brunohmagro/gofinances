@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Modal, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import {
+  Modal,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+} from "react-native";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -85,47 +93,59 @@ export function Register() {
           <Title>Cadastro</Title>
         </Header>
 
-        <Form>
-          <Fields>
-            <InputForm
-              name="name"
-              control={control}
-              placeholder="Nome"
-              autoCapitalize="sentences"
-              autoCorrect={false}
-              error={errors.name && errors.name.message}
-            />
-            <InputForm
-              name="amount"
-              control={control}
-              placeholder="Preço"
-              keyboardType="numeric"
-              error={errors.amount && errors.amount.message}
-            />
-            <TransactionsType>
-              <TransactionTypeButton
-                title="Entrada"
-                type="up"
-                isActive={typeTransaction === "up"}
-                onPress={() => handleTransactionsTypeSelect("up")}
-              />
-              <TransactionTypeButton
-                title="Saída"
-                type="down"
-                isActive={typeTransaction === "down"}
-                onPress={() => handleTransactionsTypeSelect("down")}
-              />
-            </TransactionsType>
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          enabled
+        >
+          <ScrollView
+            keyboardShouldPersistTaps="handled"
+            contentContainerStyle={{ flex: 1 }}
+          >
+            <Form>
+              <Fields>
+                <InputForm
+                  name="name"
+                  control={control}
+                  placeholder="Nome"
+                  autoCapitalize="sentences"
+                  autoCorrect={false}
+                  error={errors.name && errors.name.message}
+                />
 
-            <CategorySelectButton
-              isDefault={category.name === "Categoria"}
-              title={category.name}
-              onPress={handleOpenSelectCategoryModal}
-            />
-          </Fields>
+                <InputForm
+                  name="amount"
+                  control={control}
+                  placeholder="Preço"
+                  keyboardType="numeric"
+                  error={errors.amount && errors.amount.message}
+                />
+                <TransactionsType>
+                  <TransactionTypeButton
+                    title="Entrada"
+                    type="up"
+                    isActive={typeTransaction === "up"}
+                    onPress={() => handleTransactionsTypeSelect("up")}
+                  />
+                  <TransactionTypeButton
+                    title="Saída"
+                    type="down"
+                    isActive={typeTransaction === "down"}
+                    onPress={() => handleTransactionsTypeSelect("down")}
+                  />
+                </TransactionsType>
 
-          <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
-        </Form>
+                <CategorySelectButton
+                  isDefault={category.name === "Categoria"}
+                  title={category.name}
+                  onPress={handleOpenSelectCategoryModal}
+                />
+              </Fields>
+
+              <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
+            </Form>
+          </ScrollView>
+        </KeyboardAvoidingView>
 
         <Modal visible={categoryModalOpen}>
           <CategorySelect
