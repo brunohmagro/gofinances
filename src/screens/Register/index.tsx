@@ -11,12 +11,12 @@ import {
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import Storage from "@react-native-async-storage/async-storage";
 
 import { InputForm } from "../../components/Form/InputForm";
 import { Button } from "../../components/Form/Button";
 import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
 import { CategorySelectButton } from "../../components/Form/CategorySelectButton";
-
 import { CategorySelect } from "../CategorySelect";
 
 import {
@@ -42,6 +42,8 @@ const schema = Yup.object().shape({
 });
 
 export function Register() {
+  const keyTransactions = "@gofinances:transactions";
+
   const [category, setCategory] = useState({
     key: "category",
     name: "Categoria",
@@ -67,7 +69,7 @@ export function Register() {
     setCategoryModalOpen(false);
   };
 
-  const handleRegister = (form: FormData) => {
+  const handleRegister = async (form: FormData) => {
     if (!typeTransaction) {
       return Alert.alert("Selecione o tipo da transação");
     }
@@ -83,7 +85,12 @@ export function Register() {
       category: category.key,
     };
 
-    console.log(data);
+    try {
+      await Storage.setItem(keyTransactions, JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possivel salvar");
+    }
   };
 
   return (
