@@ -19,6 +19,7 @@ type Category = {
 export type DataTransaction = {
   title: string;
   amount: string;
+  amountFormatted: string;
   category: Category;
   date: string;
   type: "positive" | "negative";
@@ -33,7 +34,9 @@ export function TransactionsCard({ data }: TransactionsCardProps) {
     <Container>
       <Title>{data.title}</Title>
       <Amount type={data.type}>
-        {data.type === "positive" ? data.amount : "- " + data.amount}
+        {data.type === "positive"
+          ? data.amountFormatted
+          : "- " + data.amountFormatted}
       </Amount>
       <Footer>
         <Category>

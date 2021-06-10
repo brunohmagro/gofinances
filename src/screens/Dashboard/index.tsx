@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Storage from "@react-native-async-storage/async-storage";
 
 import { HighlightCard } from "../../components/HighlightCard";
 import {
@@ -28,41 +29,36 @@ export interface DataListProps extends DataTransaction {
 }
 
 export function Dashboard() {
-  const data: DataListProps[] = [
-    {
-      id: "1",
-      title: "Salário",
-      amount: "R$ 12.000,00",
-      date: "20/05/2021",
-      category: {
-        name: "Vendas",
-        icon: "dollar-sign",
-      },
-      type: "positive",
-    },
-    {
-      id: "2",
-      title: "Compra mercado",
-      amount: "R$ 12.000,00",
-      date: "20/05/2021",
-      category: {
-        name: "Vendas",
-        icon: "coffee",
-      },
-      type: "negative",
-    },
-    {
-      id: "3",
-      title: "Aluguel",
-      amount: "R$ 1.800,00",
-      date: "20/05/2021",
-      category: {
-        name: "Vendas",
-        icon: "shopping-bag",
-      },
-      type: "positive",
-    },
-  ];
+  const keyTransactions = "@gofinances:transactions";
+  const [transactions, setTransactions] = useState<DataListProps[]>([]);
+
+  useEffect(() => {
+    async function load() {
+      const currentTransactions = await Storage.getItem(keyTransactions);
+
+      const getTransactions: DataListProps[] = currentTransactions
+        ? JSON.parse(currentTransactions)
+        : false;
+
+      if (getTransactions) {
+        const transactionsTrataive = getTransactions.map((transaction) => {
+          return {
+            ...transaction,
+            amountFormatted: Number(transaction.amount).toLocaleString(
+              "pt-BR",
+              { style: "currency", currency: "BRL" }
+            ),
+          };
+        });
+
+        setTransactions(transactionsTrataive);
+      }
+
+      console.log(transactions);
+    }
+
+    load();
+  }, []);
 
   return (
     <Container>
@@ -114,7 +110,7 @@ export function Dashboard() {
 
         <TransactionsList
           keyExtractor={(item) => item.id}
-          data={data}
+          data={transactions}
           renderItem={({ item }) => <TransactionsCard data={item} />}
         />
       </Transactions>

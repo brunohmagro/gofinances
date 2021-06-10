@@ -12,7 +12,10 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Storage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
+import { useNavigation } from "@react-navigation/native";
 
+import { categories } from "../../utils/categories";
 import { InputForm } from "../../components/Form/InputForm";
 import { Button } from "../../components/Form/Button";
 import { TransactionTypeButton } from "../../components/Form/TransactionTypeButton";
@@ -51,10 +54,13 @@ export function Register() {
   const [typeTransaction, setTypeTransaction] = useState("");
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
 
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ resolver: yupResolver(schema) });
 
   const handleTransactionsTypeSelect = (type: "up" | "down"): void => {
@@ -78,15 +84,38 @@ export function Register() {
       return Alert.alert("Selecione uma categoria");
     }
 
-    const data = {
-      name: form.name,
+    const iconCategory = categories.find(
+      (categoryIcon) => categoryIcon.key === category.key
+    );
+
+    const newTransaction = {
+      id: String(uuid.v4()),
+      title: form.name,
       amount: form.amount,
-      typeTransaction,
-      category: category.key,
+      type: typeTransaction === "up" ? "positive" : "negative",
+      category: {
+        name: category.name,
+        icon: iconCategory ? iconCategory.icon : "shopping-bag",
+      },
+      date: new Date(),
     };
 
     try {
-      await Storage.setItem(keyTransactions, JSON.stringify(data));
+      const transactions = await Storage.getItem(keyTransactions);
+      const currentTransactions = transactions ? JSON.parse(transactions) : [];
+
+      const newTransactions = [...currentTransactions, newTransaction];
+
+      await Storage.setItem(keyTransactions, JSON.stringify(newTransactions));
+
+      setTypeTransaction("");
+      setCategory({
+        key: "category",
+        name: "Categoria",
+      });
+      reset();
+
+      navigation.navigate("Listagem");
     } catch (error) {
       console.log(error);
       Alert.alert("Não foi possivel salvar");
