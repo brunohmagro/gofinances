@@ -23,6 +23,7 @@ import {
   Title,
   TransactionsList,
 } from "./styles";
+import { date } from "yup/lib/locale";
 
 export interface DataListProps extends DataTransaction {
   id: string;
@@ -32,32 +33,34 @@ export function Dashboard() {
   const keyTransactions = "@gofinances:transactions";
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
 
-  useEffect(() => {
-    async function load() {
-      const currentTransactions = await Storage.getItem(keyTransactions);
+  async function loadTransactions() {
+    const currentTransactions = await Storage.getItem(keyTransactions);
 
-      const getTransactions: DataListProps[] = currentTransactions
-        ? JSON.parse(currentTransactions)
-        : false;
+    const getTransactions: DataListProps[] = currentTransactions
+      ? JSON.parse(currentTransactions)
+      : false;
 
-      if (getTransactions) {
-        const transactionsTrataive = getTransactions.map((transaction) => {
-          return {
-            ...transaction,
-            amountFormatted: Number(transaction.amount).toLocaleString(
-              "pt-BR",
-              { style: "currency", currency: "BRL" }
-            ),
-          };
-        });
+    if (getTransactions) {
+      const transactionsTrataive = getTransactions.map((transaction) => {
+        return {
+          ...transaction,
+          dateFormatted: new Date(transaction.date).toLocaleDateString(
+            "pt-BR",
+            { year: "numeric", month: "2-digit", day: "2-digit" }
+          ),
+          amountFormatted: Number(transaction.amount).toLocaleString("pt-BR", {
+            style: "currency",
+            currency: "BRL",
+          }),
+        };
+      });
 
-        setTransactions(transactionsTrataive);
-      }
-
-      console.log(transactions);
+      setTransactions(transactionsTrataive);
     }
+  }
 
-    load();
+  useEffect(() => {
+    loadTransactions();
   }, []);
 
   return (

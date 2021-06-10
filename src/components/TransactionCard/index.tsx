@@ -20,6 +20,7 @@ export type DataTransaction = {
   title: string;
   amount: string;
   amountFormatted: string;
+  dateFormatted: string;
   category: Category;
   date: string;
   type: "positive" | "negative";
@@ -43,7 +44,7 @@ export function TransactionsCard({ data }: TransactionsCardProps) {
           <Icon name={data.category.icon} />
           <CategoryName>{data.category.name}</CategoryName>
         </Category>
-        <DateTransaction>{data.date}</DateTransaction>
+        <DateTransaction>{data.dateFormatted}</DateTransaction>
       </Footer>
     </Container>
   );
