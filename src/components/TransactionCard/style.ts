@@ -53,4 +53,5 @@ export const CategoryName = styled.Text`
 
 export const DateTransaction = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
+  color: ${({ theme }) => theme.colors.text};
 `;

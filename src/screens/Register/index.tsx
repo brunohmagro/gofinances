@@ -183,7 +183,7 @@ export function Register() {
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <Modal visible={categoryModalOpen}>
+        <Modal visible={categoryModalOpen} animationType="slide">
           <CategorySelect
             category={category}
             setCategory={setCategory}

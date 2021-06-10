@@ -38,7 +38,7 @@ export function Dashboard() {
 
     const getTransactions: DataListProps[] = currentTransactions
       ? JSON.parse(currentTransactions)
-      : false;
+      : ([] as DataListProps[]);
 
     if (getTransactions) {
       const transactionsTrataive = getTransactions.map((transaction) => {
@@ -46,17 +46,19 @@ export function Dashboard() {
           ...transaction,
           dateFormatted: new Date(transaction.date).toLocaleDateString(
             "pt-BR",
-            { year: "numeric", month: "2-digit", day: "2-digit" }
+            { year: "2-digit", month: "2-digit", day: "2-digit" }
           ),
-          amountFormatted: Number(transaction.amount).toLocaleString("pt-BR", {
+          amountFormatted: Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
-          }),
+          }).format(Number(transaction.amount)),
         };
       });
 
       setTransactions(transactionsTrataive);
     }
+
+    console.log(transactions);
   }
 
   useEffect(() => {

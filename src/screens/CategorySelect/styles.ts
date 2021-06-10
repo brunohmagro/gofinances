@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import { RFValue } from "react-native-responsive-fontsize";
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
@@ -53,4 +54,5 @@ export const Footer = styled.SafeAreaView``;
 
 export const ContentFooter = styled.View`
   padding: 0 ${RFValue(24)}px;
+  margin-bottom: ${Platform.OS === "ios" ? 0 : RFValue(20)}px;
 `;
