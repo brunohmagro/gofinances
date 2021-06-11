@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import { FlatList, Platform } from "react-native";
+import { FlatList, Platform, ActivityIndicator } from "react-native";
 import { RFValue, RFPercentage } from "react-native-responsive-fontsize";
 import { Feather } from "@expo/vector-icons";
 import { BorderlessButton } from "react-native-gesture-handler";
@@ -87,3 +87,9 @@ export const TransactionsList = styled(
 ).attrs({
   showsVerticalScrollIndicator: false,
 })``;
+
+export const LoadContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
