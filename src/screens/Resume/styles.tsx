@@ -15,6 +15,11 @@ export const Header = styled.View`
   padding-bottom: ${RFValue(19)}px;
 `;
 
+export const ContainerHistoryCard = styled.ScrollView`
+  flex: 1;
+  padding: ${RFValue(24)}px;
+`;
+
 export const Title = styled.Text`
   font-family: ${({ theme }) => theme.fonts.regular};
   color: ${({ theme }) => theme.colors.shape};

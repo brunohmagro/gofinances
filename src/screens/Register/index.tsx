@@ -94,6 +94,7 @@ export function Register() {
       amount: form.amount,
       type: typeTransaction === "up" ? "positive" : "negative",
       category: {
+        key: category.key,
         name: category.name,
         icon: iconCategory ? iconCategory.icon : "shopping-bag",
       },

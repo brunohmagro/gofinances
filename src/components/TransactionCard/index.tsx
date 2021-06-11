@@ -14,6 +14,7 @@ import {
 type Category = {
   name: string;
   icon: string;
+  key: string;
 };
 
 export type DataTransaction = {
