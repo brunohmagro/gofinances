@@ -8,6 +8,7 @@ import { HistoryCard } from "../../components/HistoryCard";
 import { DataTransaction } from "../../components/TransactionCard";
 import { categories } from "../../utils/categories";
 import { useState } from "react";
+import { number } from "yup/lib/locale";
 
 interface DataListProps extends DataTransaction {
   id: string;
@@ -18,6 +19,8 @@ interface TotalByCategory {
   name: string;
   total: string;
   color: string;
+  percent: number;
+  percentFormatted: string;
 }
 
 export const Resume: React.FC = () => {
@@ -34,6 +37,12 @@ export const Resume: React.FC = () => {
     const expensives = getTransactions.filter(
       (expensive) => expensive.type === "negative"
     );
+
+    const expensivesTotal = expensives.reduce((acc, expensice) => {
+      return acc + Number(expensice.amount);
+    }, 0);
+
+    console.log(expensivesTotal);
 
     const totalByCategory: TotalByCategory[] = [];
 
@@ -55,9 +64,14 @@ export const Resume: React.FC = () => {
             currency: "BRL",
           }).format(Number(categorySum)),
           color: category.color,
+          percent: Number(((categorySum / expensivesTotal) * 100).toFixed(0)),
+          percentFormatted:
+            ((categorySum / expensivesTotal) * 100).toFixed(0) + "%",
         });
       }
     });
+
+    console.log(totalByCategory);
 
     setInfoHistoryCard(totalByCategory);
   }
