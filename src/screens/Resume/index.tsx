@@ -12,6 +12,10 @@ import {
   ContainerHistoryCard,
   ChartContainer,
   Title,
+  MonthSelect,
+  MonthSelectButton,
+  SelectIcon,
+  Month,
 } from "./styles";
 
 import { HistoryCard } from "../../components/HistoryCard";
@@ -102,6 +106,18 @@ export const Resume: React.FC = () => {
           paddingBottom: useBottomTabBarHeight(),
         }}
       >
+        <MonthSelect>
+          <MonthSelectButton>
+            <SelectIcon name="chevron-left" />
+          </MonthSelectButton>
+
+          <Month>Maio</Month>
+
+          <MonthSelectButton>
+            <SelectIcon name="chevron-right" />
+          </MonthSelectButton>
+        </MonthSelect>
+
         <ChartContainer>
           <VictoryPie
             data={infoHistoryCard}
