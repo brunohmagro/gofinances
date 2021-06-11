@@ -16,8 +16,12 @@ export const Header = styled.View`
 `;
 
 export const ContainerHistoryCard = styled.ScrollView`
-  flex: 1;
   padding: ${RFValue(24)}px;
+`;
+
+export const ChartContainer = styled.View`
+  width: 100%;
+  align-items: center;
 `;
 
 export const Title = styled.Text`

@@ -1,14 +1,23 @@
 import React, { useCallback } from "react";
 import { useFocusEffect } from "@react-navigation/native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Storage from "@react-native-async-storage/async-storage";
+import { VictoryPie } from "victory-native";
+import { RFValue } from "react-native-responsive-fontsize";
+import { useTheme } from "styled-components";
 
-import { Container, Header, ContainerHistoryCard, Title } from "./styles";
+import {
+  Container,
+  Header,
+  ContainerHistoryCard,
+  ChartContainer,
+  Title,
+} from "./styles";
 
 import { HistoryCard } from "../../components/HistoryCard";
 import { DataTransaction } from "../../components/TransactionCard";
 import { categories } from "../../utils/categories";
 import { useState } from "react";
-import { number } from "yup/lib/locale";
 
 interface DataListProps extends DataTransaction {
   id: string;
@@ -17,13 +26,15 @@ interface DataListProps extends DataTransaction {
 interface TotalByCategory {
   key: string;
   name: string;
-  total: string;
+  total: number;
+  totalFormatted: string;
   color: string;
   percent: number;
   percentFormatted: string;
 }
 
 export const Resume: React.FC = () => {
+  const theme = useTheme();
   const keyTransactions = "@gofinances:transactions";
 
   const [infoHistoryCard, setInfoHistoryCard] = useState<TotalByCategory[]>([]);
@@ -42,8 +53,6 @@ export const Resume: React.FC = () => {
       return acc + Number(expensice.amount);
     }, 0);
 
-    console.log(expensivesTotal);
-
     const totalByCategory: TotalByCategory[] = [];
 
     categories.forEach((category) => {
@@ -59,7 +68,8 @@ export const Resume: React.FC = () => {
         totalByCategory.push({
           key: category.key,
           name: category.name,
-          total: Intl.NumberFormat("pt-BR", {
+          total: Number(categorySum),
+          totalFormatted: Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
           }).format(Number(categorySum)),
@@ -70,8 +80,6 @@ export const Resume: React.FC = () => {
         });
       }
     });
-
-    console.log(totalByCategory);
 
     setInfoHistoryCard(totalByCategory);
   }
@@ -88,14 +96,36 @@ export const Resume: React.FC = () => {
         <Title>Resumo por categoria</Title>
       </Header>
 
-      <ContainerHistoryCard>
+      <ContainerHistoryCard
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingBottom: useBottomTabBarHeight(),
+        }}
+      >
+        <ChartContainer>
+          <VictoryPie
+            data={infoHistoryCard}
+            x="percentFormatted"
+            y="total"
+            colorScale={infoHistoryCard.map((category) => category.color)}
+            style={{
+              labels: {
+                fontSize: RFValue(18),
+                fontWeight: "bold",
+                fill: theme.colors.shape,
+              },
+            }}
+            labelRadius={70}
+          />
+        </ChartContainer>
+
         {infoHistoryCard.map((transaction) => {
           return (
             <HistoryCard
               key={transaction.key}
               color={transaction.color}
               title={transaction.name}
-              amount={transaction.total}
+              amount={transaction.totalFormatted}
             />
           );
         })}
