@@ -14,7 +14,6 @@ export const Container = styled.View`
 export const Header = styled.SafeAreaView`
   height: ${RFValue(278)}px;
   background: ${({ theme }) => theme.colors.primary};
-  padding-top: ${Platform.OS === "android" ? RFValue(40) : 0}px;
 `;
 
 export const UserWrapper = styled.View`

@@ -1,3 +1,4 @@
+import { Platform } from "react-native";
 import styled from "styled-components/native";
 import { RFValue } from "react-native-responsive-fontsize";
 import { BorderlessButton } from "react-native-gesture-handler";
@@ -10,7 +11,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
   background: ${({ theme }) => theme.colors.primary};
-  height: ${RFValue(113)}px;
+  height: ${Platform.OS === "ios" ? RFValue(113) : RFValue(90)}px;
 
   align-items: center;
   justify-content: flex-end;

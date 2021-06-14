@@ -10,7 +10,7 @@ export const Container = styled(GestureHandlerRootView)`
 `;
 
 export const Header = styled.View`
-  height: ${RFValue(113)}px;
+  height: ${Platform.OS === "ios" ? RFValue(113) : RFValue(90)}px;
   background: ${({ theme }) => theme.colors.primary};
   align-items: center;
   justify-content: flex-end;
