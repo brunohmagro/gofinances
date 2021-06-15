@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { RFValue } from "react-native-responsive-fontsize";
 
-import { AuthContext } from "../../AuthContext";
+import { useAuth } from "../../hooks/auth";
 
 import AppleSvg from "../../assets/icons/apple.svg";
 import GoogleSvg from "../../assets/icons/google.svg";
@@ -20,9 +20,9 @@ import {
 } from "./styles";
 
 export const SignIn: React.FC = () => {
-  const data = useContext(AuthContext);
+  const { user } = useAuth();
 
-  console.log(data);
+  console.log(user);
 
   return (
     <Container>
