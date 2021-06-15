@@ -46,3 +46,8 @@ export const Footer = styled.View`
   height: 30%;
   background: ${({ theme }) => theme.colors.secondary};
 `;
+
+export const FooterWrapper = styled.View`
+  margin-top: ${RFPercentage(-4)}px;
+  padding: 0 ${RFValue(32)}px;
+`;
