@@ -18,11 +18,19 @@ import {
   Footer,
   FooterWrapper,
 } from "./styles";
+import { Alert } from "react-native";
 
 export const SignIn: React.FC = () => {
-  const { user } = useAuth();
+  const { user, signInWithGoogle } = useAuth();
 
-  console.log(user);
+  const handleSignInWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Falha ao efetuar o login");
+    }
+  };
 
   return (
     <Container>
@@ -48,7 +56,7 @@ export const SignIn: React.FC = () => {
           <SignInSocialButton
             title="Entrar com o Google"
             svg={GoogleSvg}
-            onPress={() => console.log("Quero entrar com o Google")}
+            onPress={handleSignInWithGoogle}
           />
           <SignInSocialButton
             title="Entrar com Apple"
