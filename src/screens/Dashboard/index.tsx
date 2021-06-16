@@ -121,8 +121,12 @@ export function Dashboard() {
 
       const totalInterval =
         lastTransactionEntries > lastTransactionsExpensive
-          ? `01 a ${lastTransactionEntries}`
-          : `01 a ${lastTransactionsExpensive}`;
+          ? lastTransactionEntries !== "Invalid Date"
+            ? `01 a ${lastTransactionEntries}`
+            : `01 a ${lastTransactionsExpensive}`
+          : lastTransactionsExpensive !== "Invalid Date"
+          ? `01 a ${lastTransactionsExpensive}`
+          : `01 a ${lastTransactionEntries}`;
 
       setHighlightData({
         entries: {
@@ -197,7 +201,11 @@ export function Dashboard() {
             <HighlightCard
               title="Saídas"
               amount={highlightData.expensives.amount}
-              lastTransaction={`Última saída dia ${highlightData.expensives.lastTransaction}`}
+              lastTransaction={
+                highlightData.expensives.lastTransaction === "Invalid Date"
+                  ? "Nenhuma saída registrada"
+                  : `Última saída dia ${highlightData.expensives.lastTransaction}`
+              }
               type="down"
             />
 
