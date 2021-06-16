@@ -92,3 +92,15 @@ export const LoadContainer = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+export const IconContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const IconNoTransactions = styled(Feather)`
+  font-family: ${({ theme }) => theme.fonts.bold};
+  font-size: ${RFValue(100)}px;
+  color: ${({ theme }) => theme.colors.secondary_light};
+`;

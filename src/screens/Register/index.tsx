@@ -15,6 +15,8 @@ import Storage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 import { useNavigation } from "@react-navigation/native";
 
+import { useAuth } from "../../hooks/auth";
+
 import { categories } from "../../utils/categories";
 import { InputForm } from "../../components/Form/InputForm";
 import { Button } from "../../components/Form/Button";
@@ -31,6 +33,8 @@ import {
   TransactionsType,
 } from "./styles";
 
+import { TRANSACTIONS_BASE_KEY } from "@env";
+
 interface FormData {
   name: string;
   amount: string;
@@ -45,7 +49,8 @@ const schema = Yup.object().shape({
 });
 
 export function Register() {
-  const keyTransactions = "@gofinances:transactions";
+  const { user } = useAuth();
+  const keyTransactions = `${TRANSACTIONS_BASE_KEY}:${user.id}`;
 
   const [category, setCategory] = useState({
     key: "category",

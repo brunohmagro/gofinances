@@ -2,15 +2,18 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 import Storage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from "react-native";
+import { useTheme } from "styled-components";
 
 import { HighlightCard } from "../../components/HighlightCard";
 import {
   TransactionsCard,
   DataTransaction,
 } from "../../components/TransactionCard";
+
 import { useAuth } from "../../hooks/auth";
 
-import { useTheme } from "styled-components";
+import { TRANSACTIONS_BASE_KEY } from "@env";
+
 import {
   Container,
   Header,
@@ -27,6 +30,8 @@ import {
   Title,
   TransactionsList,
   LoadContainer,
+  IconContainer,
+  IconNoTransactions,
 } from "./styles";
 
 export interface DataListProps extends DataTransaction {
@@ -52,11 +57,32 @@ export function Dashboard() {
   const { signOut, user } = useAuth();
   const [isLoading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
-  const [highlightData, setHighlightData] = useState<HighlightCardProps>(
-    {} as HighlightCardProps
-  );
+  const [highlightData, setHighlightData] = useState<HighlightCardProps>({
+    entries: {
+      amount: Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(0),
+      lastTransaction: "Opa, ainda não temos entradas",
+    },
+    expensives: {
+      amount: Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(0),
+      lastTransaction: "Boa! Ainda sem despesas",
+    },
+    total: {
+      amount: Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(0),
+      lastTransaction: "Vixi, sem valores por aqui 🙁",
+    },
+  });
 
-  const keyTransactions = "@gofinances:transactions";
+  const keyTransactions = `${TRANSACTIONS_BASE_KEY}:${user.id}`;
+
   const theme = useTheme();
 
   const getLastTransactionDate = (
@@ -134,14 +160,17 @@ export function Dashboard() {
             style: "currency",
             currency: "BRL",
           }).format(Number(entriesTotal)),
-          lastTransaction: lastTransactionEntries,
+          lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
         },
         expensives: {
           amount: Intl.NumberFormat("pt-BR", {
             style: "currency",
             currency: "BRL",
           }).format(Number(expensive)),
-          lastTransaction: lastTransactionsExpensive,
+          lastTransaction:
+            lastTransactionsExpensive === "Invalid Date"
+              ? "Nenhuma saída registrada"
+              : `Última saída dia ${lastTransactionsExpensive}`,
         },
         total: {
           amount: Intl.NumberFormat("pt-BR", {
@@ -151,9 +180,8 @@ export function Dashboard() {
           lastTransaction: totalInterval,
         },
       });
-
-      setLoading(false);
     }
+    setLoading(false);
   }
 
   useFocusEffect(
@@ -194,18 +222,14 @@ export function Dashboard() {
             <HighlightCard
               title="Entradas"
               amount={highlightData.entries.amount}
-              lastTransaction={`Última entrada dia ${highlightData.entries.lastTransaction}`}
+              lastTransaction={highlightData.entries.lastTransaction}
               type="up"
             />
 
             <HighlightCard
               title="Saídas"
               amount={highlightData.expensives.amount}
-              lastTransaction={
-                highlightData.expensives.lastTransaction === "Invalid Date"
-                  ? "Nenhuma saída registrada"
-                  : `Última saída dia ${highlightData.expensives.lastTransaction}`
-              }
+              lastTransaction={highlightData.expensives.lastTransaction}
               type="down"
             />
 
@@ -218,13 +242,23 @@ export function Dashboard() {
           </HighlightCards>
 
           <Transactions>
-            <Title>Listagem</Title>
+            {transactions.length > 0 && (
+              <>
+                <Title>Listagem</Title>
 
-            <TransactionsList
-              keyExtractor={(item) => item.id}
-              data={transactions}
-              renderItem={({ item }) => <TransactionsCard data={item} />}
-            />
+                <TransactionsList
+                  keyExtractor={(item) => item.id}
+                  data={transactions}
+                  renderItem={({ item }) => <TransactionsCard data={item} />}
+                />
+              </>
+            )}
+
+            {transactions.length === 0 && (
+              <IconContainer>
+                <IconNoTransactions name="dollar-sign" />
+              </IconContainer>
+            )}
           </Transactions>
         </>
       )}
