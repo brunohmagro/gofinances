@@ -21,14 +21,23 @@ import {
 import { Alert } from "react-native";
 
 export const SignIn: React.FC = () => {
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle, signInWithApple } = useAuth();
 
   const handleSignInWithGoogle = async () => {
     try {
       await signInWithGoogle();
     } catch (error) {
       console.log(error);
-      Alert.alert("Falha ao efetuar o login");
+      Alert.alert("Não foi possível conectar a conta Google");
+    }
+  };
+
+  const handleSignInWithApple = async () => {
+    try {
+      await signInWithApple();
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível conectar a conta Apple");
     }
   };
 
@@ -61,7 +70,7 @@ export const SignIn: React.FC = () => {
           <SignInSocialButton
             title="Entrar com Apple"
             svg={AppleSvg}
-            onPress={() => console.log("Quero entrar com a Apple")}
+            onPress={handleSignInWithApple}
           />
         </FooterWrapper>
       </Footer>
