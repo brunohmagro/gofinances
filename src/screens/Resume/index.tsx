@@ -9,6 +9,8 @@ import { useTheme } from "styled-components";
 import { addMonths, subMonths, format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 
+import { TRANSACTIONS_BASE_KEY } from "@env";
+
 import {
   Container,
   Header,
@@ -26,6 +28,7 @@ import { HistoryCard } from "../../components/HistoryCard";
 import { DataTransaction } from "../../components/TransactionCard";
 import { categories } from "../../utils/categories";
 import { useState } from "react";
+import { useAuth } from "../../hooks/auth";
 
 interface DataListProps extends DataTransaction {
   id: string;
@@ -43,7 +46,8 @@ interface TotalByCategory {
 
 export const Resume: React.FC = () => {
   const theme = useTheme();
-  const keyTransactions = "@gofinances:transactions";
+  const { user } = useAuth();
+  const keyTransactions = `${TRANSACTIONS_BASE_KEY}:${user.id}`;
 
   const [isLoading, setIsLoading] = useState(false);
   const [infoHistoryCard, setInfoHistoryCard] = useState<TotalByCategory[]>([]);
