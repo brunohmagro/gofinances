@@ -50,8 +50,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(userLogged);
         await Storage.setItem(USER_KEY, JSON.stringify(userLogged));
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       throw new Error(error);
     } finally {
       setUserLoading(false);
@@ -83,8 +82,7 @@ const AuthProvider = ({ children }: AuthProviderProps) => {
         await Storage.setItem(USER_KEY, JSON.stringify(userLogged));
         setUserLoading(false);
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
       throw new Error(error);
     } finally {
       setUserLoading(false);
