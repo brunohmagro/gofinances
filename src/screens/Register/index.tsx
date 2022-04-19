@@ -178,6 +178,7 @@ export function Register() {
                 </TransactionsType>
 
                 <CategorySelectButton
+                  testID="button-register-category"
                   isDefault={category.name === "Categoria"}
                   title={category.name}
                   onPress={handleOpenSelectCategoryModal}
@@ -189,7 +190,7 @@ export function Register() {
           </ScrollView>
         </KeyboardAvoidingView>
 
-        <Modal visible={categoryModalOpen} animationType="slide">
+        <Modal testID="modal-register-category" visible={categoryModalOpen} animationType="slide">
           <CategorySelect
             category={category}
             setCategory={setCategory}
