@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from '@testing-library/react-native'
 
-import { Profile } from '../../screens/Profile'
+import { Profile } from '../../../screens/Profile'
 
 describe('Profile', () => {
   it('should show username input placeholder correctly', () => {
