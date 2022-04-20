@@ -6,7 +6,8 @@
     "web": "expo start --web",
     "start": "react-native start",
     "test": "jest",
-    "test:w": "yarn test --watchAll"
+    "test:w": "yarn test --watchAll",
+    "test:coverage": "yarn test --coverage"
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.1.0",
