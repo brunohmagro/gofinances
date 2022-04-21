@@ -164,12 +164,14 @@ export function Register() {
                 />
                 <TransactionsType>
                   <TransactionTypeButton
+                    testID="Register-TransactionTypeButton-up"
                     title="Entrada"
                     type="up"
                     isActive={typeTransaction === "up"}
                     onPress={() => handleTransactionsTypeSelect("up")}
                   />
                   <TransactionTypeButton
+                    testID="Register-TransactionTypeButton-down"
                     title="Saída"
                     type="down"
                     isActive={typeTransaction === "down"}

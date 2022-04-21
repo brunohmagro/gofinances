@@ -48,6 +48,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <Category
+            testID="CategorySelect-button-item"
             onPress={() => handleCategorySelect(item)}
             isActive={category.key === item.key}
           >

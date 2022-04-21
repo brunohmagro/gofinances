@@ -40,4 +40,21 @@ describe('Register screen', () => {
       expect(categoryModal.props.visible).toBeTruthy()
     })
   })
+
+  it('teste', async () => {
+    const { getByTestId } = render(
+      <Register />,
+      {
+        wrapper: Providers,
+      }
+    )
+
+    const TransactionTypeButton = getByTestId('Register-TransactionTypeButton-up')
+    fireEvent.press(TransactionTypeButton)
+
+    await waitFor(() => {
+      // console.log(TransactionTypeButton.props.isActive)
+      expect(TransactionTypeButton.props.isActive).toBeTruthy()
+    })
+  })
 })
