@@ -17,4 +17,7 @@ module.exports = {
   coverageReporters: [
     "lcov"
   ],
+  transform: {
+    "^.+\\.svg$": "jest-svg-transformer"
+  },
 }
