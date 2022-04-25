@@ -21,7 +21,7 @@ export function TransactionTypeButton({
   ...rest
 }: TransactionTypeButtonProps) {
   return (
-    <Container isActive={isActive} type={type}>
+    <Container testID={`Register-TransactionTypeButton-${type}`} isActive={isActive} type={type}>
       <ButtonTransactionType {...rest}>
         <Icon type={type} name={icons[type]} />
         <Title>{title}</Title>

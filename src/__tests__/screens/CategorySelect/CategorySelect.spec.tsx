@@ -1,6 +1,6 @@
 import React from 'react'
 import { ThemeProvider } from 'styled-components/native'
-import { render, waitFor, fireEvent } from '@testing-library/react-native'
+import { render, fireEvent } from '@testing-library/react-native'
 
 import theme from '../../../global/styles/theme'
 
