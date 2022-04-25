@@ -13,7 +13,7 @@ export const HistoryCard: React.FC<HistoryCardProps> = ({
   title,
   amount,
 }: HistoryCardProps) => (
-  <Container color={color}>
+  <Container testID="HistoryCard-Container" color={color}>
     <Title>{title}</Title>
     <Amount>{amount}</Amount>
   </Container>
