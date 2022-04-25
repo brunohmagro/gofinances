@@ -191,7 +191,7 @@ export function Dashboard() {
   );
 
   return (
-    <Container>
+    <Container testID="Dashboard-Container">
       {isLoading ? (
         <LoadContainer>
           <ActivityIndicator color={theme.colors.primary} size="large" />

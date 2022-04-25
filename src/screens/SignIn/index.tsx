@@ -50,7 +50,7 @@ export const SignIn: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container testID="SignIn-Container">
       <Header>
         <TitleWrapper>
           <LogoSvg width={RFValue(120)} height={RFValue(68)} />
