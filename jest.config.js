@@ -20,4 +20,10 @@ module.exports = {
   transform: {
     "^.+\\.svg$": "jest-svg-transformer"
   },
+  transformIgnorePatterns: [
+    "node_modules/(?!victory-native)/"
+  ],
+  setupFiles: [
+    "<rootDir>/jest/setup.js"
+  ]
 }
