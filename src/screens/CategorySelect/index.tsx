@@ -48,7 +48,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
         keyExtractor={(item) => item.key}
         renderItem={({ item }) => (
           <Category
-            testID="CategorySelect-button-item"
+            testID={`CategorySelect-button-item-${item.key}`}
             onPress={() => handleCategorySelect(item)}
             isActive={category.key === item.key}
           >
@@ -61,7 +61,7 @@ export const CategorySelect: React.FC<CategorySelectProps> = ({
 
       <Footer>
         <ContentFooter>
-          <Button title="Selecionar" onPress={closeSelectCategory} />
+          <Button test="CategorySelect-Button-CloseSelectCategory" title="Selecionar" onPress={closeSelectCategory} />
         </ContentFooter>
       </Footer>
     </Container>

@@ -109,11 +109,11 @@ export function Register() {
     try {
       const transactions = await Storage.getItem(keyTransactions);
       const currentTransactions = transactions ? JSON.parse(transactions) : [];
-
+      
       const newTransactions = [...currentTransactions, newTransaction];
-
+      
       await Storage.setItem(keyTransactions, JSON.stringify(newTransactions));
-
+      
       setTypeTransaction("");
       setCategory({
         key: "category",
@@ -147,6 +147,7 @@ export function Register() {
             <Form>
               <Fields>
                 <InputForm
+                  testID="Register-InputForm-name"
                   name="name"
                   control={control}
                   placeholder="Nome"
@@ -156,6 +157,7 @@ export function Register() {
                 />
 
                 <InputForm
+                  testID="Register-InputForm-amount"
                   name="amount"
                   control={control}
                   placeholder="Preço"
@@ -185,7 +187,7 @@ export function Register() {
                 />
               </Fields>
 
-              <Button title="Enviar" onPress={handleSubmit(handleRegister)} />
+              <Button test="Register-submit-button" title="Enviar" onPress={handleSubmit(handleRegister)} />
             </Form>
           </ScrollView>
         </KeyboardAvoidingView>

@@ -6,11 +6,12 @@ import { Container, Title } from "./style";
 interface ButtonProps extends RectButtonProps {
   title: string;
   onPress: () => void;
+  test: string;
 }
 
-export function Button({ title, onPress, ...rest }: ButtonProps) {
+export function Button({ title, onPress, test, ...rest }: ButtonProps) {
   return (
-    <Container onPress={onPress} {...rest}>
+    <Container testID={test} onPress={onPress} {...rest}>
       <Title>{title}</Title>
     </Container>
   );
