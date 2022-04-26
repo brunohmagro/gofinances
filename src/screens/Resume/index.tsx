@@ -1,6 +1,6 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { ActivityIndicator } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { useIsFocused } from "@react-navigation/native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import Storage from "@react-native-async-storage/async-storage";
 import { VictoryPie } from "victory-native";
@@ -45,9 +45,12 @@ interface TotalByCategory {
 }
 
 export const Resume: React.FC = () => {
+  const isFocused = useIsFocused()
   const theme = useTheme();
   const { user } = useAuth();
-  const keyTransactions = `${TRANSACTIONS_BASE_KEY}:${user.id}`;
+
+  const keyT = TRANSACTIONS_BASE_KEY ? TRANSACTIONS_BASE_KEY : '';
+  const keyTransactions = `${keyT}:${user.id}`;
 
   const [isLoading, setIsLoading] = useState(false);
   const [infoHistoryCard, setInfoHistoryCard] = useState<TotalByCategory[]>([]);
@@ -111,14 +114,20 @@ export const Resume: React.FC = () => {
     setIsLoading(false);
   }
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    if (isFocused) {
       loadData();
-    }, [selectedDate])
-  );
+    }
+  },[selectedDate, isFocused])
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     loadData();
+  //   }, [selectedDate])
+  // );
 
   return (
-    <Container>
+    <Container testID="Resume-Container">
       <Header>
         <Title>Resumo por categoria</Title>
       </Header>
@@ -135,7 +144,7 @@ export const Resume: React.FC = () => {
           }}
         >
           <MonthSelect>
-            <MonthSelectButton onPress={() => handleDateChange("previous")}>
+            <MonthSelectButton testID="Resume-Container-MonthSelectButton-Previous" onPress={() => handleDateChange("previous")}>
               <SelectIcon name="chevron-left" />
             </MonthSelectButton>
 
@@ -143,7 +152,7 @@ export const Resume: React.FC = () => {
               {format(selectedDate, "MMMM, yyyy", { locale: ptBR })}
             </Month>
 
-            <MonthSelectButton onPress={() => handleDateChange("next")}>
+            <MonthSelectButton testID="Resume-Container-MonthSelectButton-Next" onPress={() => handleDateChange("next")}>
               <SelectIcon name="chevron-right" />
             </MonthSelectButton>
           </MonthSelect>
