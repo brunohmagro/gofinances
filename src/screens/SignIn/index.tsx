@@ -32,7 +32,6 @@ export const SignIn: React.FC = () => {
       setIsLoading(true);
       return await signInWithGoogle();
     } catch (error) {
-      console.log(error);
       Alert.alert("Não foi possível conectar a conta Google");
       setIsLoading(false);
     }
@@ -43,7 +42,6 @@ export const SignIn: React.FC = () => {
       setIsLoading(true);
       return await signInWithApple();
     } catch (error) {
-      console.log(error);
       Alert.alert("Não foi possível conectar a conta Apple");
       setIsLoading(false);
     }
@@ -85,7 +83,7 @@ export const SignIn: React.FC = () => {
         </FooterWrapper>
 
         {isLoading && (
-          <ActivityIndicator color={theme.colors.shape} size="large" />
+          <ActivityIndicator testID="SignIn-Container-ActivityIndicator" color={theme.colors.shape} size="large" />
         )}
       </Footer>
     </Container>
