@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useIsFocused } from "@react-navigation/native";
 import Storage from "@react-native-async-storage/async-storage";
 import { ActivityIndicator } from "react-native";
 import { useTheme } from "styled-components";
@@ -54,6 +54,7 @@ interface HighlightCardProps {
 }
 
 export function Dashboard() {
+  const isFocused = useIsFocused();
   const { signOut, user } = useAuth();
   const [isLoading, setLoading] = useState(true);
   const [transactions, setTransactions] = useState<DataListProps[]>([]);
@@ -81,7 +82,9 @@ export function Dashboard() {
     },
   });
 
-  const keyTransactions = `${TRANSACTIONS_BASE_KEY}:${user.id}`;
+  const transactionPrefix = TRANSACTIONS_BASE_KEY ? TRANSACTIONS_BASE_KEY : '';
+
+  const keyTransactions = `${transactionPrefix}:${user.id}`;
 
   const theme = useTheme();
 
@@ -184,17 +187,24 @@ export function Dashboard() {
     setLoading(false);
   }
 
-  useFocusEffect(
-    useCallback(() => {
-      loadTransactions();
-    }, [])
-  );
+  // useFocusEffect(() => {
+  //   console.log('AQUIIIIII')
+  //   loadTransactions().then(() => {
+  //     console.log('FINALIZOU')
+  //   })
+  // });
+
+  useEffect(() => {
+    if (isFocused) {
+      loadTransactions()
+    }
+  }, [isFocused])
 
   return (
     <Container testID="Dashboard-Container">
       {isLoading ? (
         <LoadContainer>
-          <ActivityIndicator color={theme.colors.primary} size="large" />
+          <ActivityIndicator testID="Dashboard-Container-ActivityIndicator" color={theme.colors.primary} size="large" />
         </LoadContainer>
       ) : (
         <>
