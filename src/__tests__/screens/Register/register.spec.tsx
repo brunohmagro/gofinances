@@ -179,7 +179,7 @@ describe('Register screen', () => {
     })
   })
 
-  it('should register an entry', async () => {
+  it('should create a new transaction with down type', async () => {
     const { getByTestId } = render(
       <Register />,
       {
@@ -212,7 +212,45 @@ describe('Register screen', () => {
     })
   })
 
-  it('wip', async () => {
+  it('should create a new transaction with up type', async () => {
+    jest.mock('react-native/Libraries/Utilities/Platform', () => ({
+      OS: 'android',
+      select: () => null,
+    }));
+
+    const { getByTestId } = render(
+      <Register />,
+      {
+        wrapper: Providers,
+      }
+    )
+
+    const TransactionTypeButtonUp = getByTestId('Register-TransactionTypeButton-up')
+
+    const name = getByTestId('Register-InputForm-name')
+    const amount = getByTestId('Register-InputForm-amount')
+
+    fireEvent.changeText(name, 'Any_name')
+    fireEvent.changeText(amount, '10')
+    fireEvent.press(TransactionTypeButtonUp)
+
+    const category = getByTestId('modal-register-category')
+    fireEvent.press(category)  
+    
+    await waitFor(() => {
+      const categoryToSelect = getByTestId('CategorySelect-button-item-food')
+      fireEvent.press(categoryToSelect)
+      const closeModal = getByTestId('CategorySelect-Button-CloseSelectCategory')
+      fireEvent.press(closeModal)
+
+      const submitButton = getByTestId('Register-submit-button')
+      fireEvent.press(submitButton)
+
+      expect(mockedNavigate).toBeCalledWith('Listagem')
+    })
+  })
+
+  it('sould not create a new transaction', async () => {
     jest.spyOn(Alert, 'alert');
     jest.spyOn(Storage, 'setItem').mockRejectedValueOnce(new Error('any error'))
 
